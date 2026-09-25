@@ -1,0 +1,93 @@
+---
+import { LOCALES, LOCALE_LABELS, getLocalizedPath, type Locale, type TranslationDictionary } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+  t: TranslationDictionary;
+}
+
+const { locale, t } = Astro.props;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="mt-20 border-t border-[#F3E6D5] dark:border-[#541523] bg-[#FFF9F2] dark:bg-[#2C0911] transition-colors duration-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+      <!-- Brand & Privacy statement -->
+      <div class="space-y-3">
+        <a href={getLocalizedPath(locale)} class="inline-flex items-center gap-2 font-bold text-lg text-[#800020] dark:text-[#FFF9F2]">
+          <span class="w-7 h-7 rounded-lg bg-[#800020] dark:bg-[#D45060] text-[#FFF9F2] flex items-center justify-center text-xs font-extrabold shadow-sm">
+            AI
+          </span>
+          <span>Upscale<span class="text-[#D45060]">Image</span></span>
+        </a>
+        <p class="text-sm text-[#3B1B22]/80 dark:text-[#F3E6D5]/80 leading-relaxed">
+          {t.footer.tagline}
+        </p>
+        <div class="inline-flex items-center gap-2 text-xs font-medium text-[#800020] dark:text-[#F3E6D5] bg-[#F3E6D5]/60 dark:bg-[#541523]/70 px-3 py-1.5 rounded-lg border border-[#800020]/20 dark:border-[#D45060]/30">
+          <span class="w-2 h-2 rounded-full bg-[#D45060] animate-pulse"></span>
+          <span>{t.footer.privacyNote}</span>
+        </div>
+      </div>
+
+      <!-- Localized Internal Links for Crawlers & Users -->
+      <div class="space-y-3">
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-[#800020]/60 dark:text-[#F3E6D5]/60">
+          {t.nav.languageLabel}
+        </h2>
+        <div class="flex flex-wrap gap-2">
+          {
+            LOCALES.map((loc) => (
+              <a
+                href={getLocalizedPath(loc)}
+                class={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+                  loc === locale
+                    ? 'bg-[#F3E6D5] dark:bg-[#541523] border-[#800020] dark:border-[#D45060] text-[#800020] dark:text-[#D45060] font-bold'
+                    : 'bg-[#FFFFFF] dark:bg-[#1A0408] border-[#F3E6D5] dark:border-[#541523] text-[#3B1B22] dark:text-[#F3E6D5] hover:border-[#D45060]'
+                }`}
+              >
+                <span>{LOCALE_LABELS[loc].flag}</span>
+                <span>{LOCALE_LABELS[loc].name}</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Support the Developer Card -->
+      <div class="p-5 rounded-2xl bg-[#FAF4EC] dark:bg-[#1A0408] border border-[#F3E6D5] dark:border-[#541523] flex flex-col justify-between gap-4">
+        <div class="space-y-1">
+          <p class="text-sm font-bold text-[#800020] dark:text-[#FFF9F2]">
+            {t.footer.supportPrompt}
+          </p>
+          <p class="text-xs text-[#800020]/70 dark:text-[#F3E6D5]/70">
+            buymeacoffee.com/kisharadilz
+          </p>
+        </div>
+        <a
+          href="https://buymeacoffee.com/kisharadilz"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-[#FFF9F2] bg-[#800020] hover:bg-[#D45060] dark:bg-[#D45060] dark:hover:bg-[#E57381] shadow-sm hover:shadow-glow-coral transition-all"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
+            <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
+          </svg>
+          <span>{t.footer.supportButton}</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-[#F3E6D5] dark:border-[#541523] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#800020]/70 dark:text-[#F3E6D5]/70">
+      <p>© {currentYear} UpscaleImage (upscaleimage.github.io). {t.footer.copyright}</p>
+      <p class="flex items-center gap-3">
+        <a href="/sitemap.xml" class="hover:text-[#D45060] transition-colors">Sitemap</a>
+        <span>•</span>
+        <a href="https://buymeacoffee.com/kisharadilz" target="_blank" rel="noopener noreferrer" class="hover:text-[#D45060] transition-colors">
+          @kisharadilz
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #FFF9F2;
+    --bg-surface: #FFFFFF;
+    --text-primary: #800020;
+    --text-body: #3B1B22;
+    --accent-primary: #800020;
+    --accent-secondary: #D45060;
+    --border-subtle: #F3E6D5;
+  }
+
+  .dark {
+    --bg-primary: #1A0408;
+    --bg-surface: #2C0911;
+    --text-primary: #FFF9F2;
+    --text-body: #F3E6D5;
+    --accent-primary: #D45060;
+    --accent-secondary: #800020;
+    --border-subtle: #541523;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #FFF9F2;
+    color: #3B1B22;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .dark body {
+    background-color: #1A0408;
+    color: #FFF9F2;
+  }
+}
+
+/* Transparency checkerboard for PNG/WebP comparison */
+.bg-checkerboard {
+  background-color: #FAF4EC;
+  background-image: 
+    linear-gradient(45deg, #F3E6D5 25%, transparent 25%), 
+    linear-gradient(-45deg, #F3E6D5 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #F3E6D5 75%), 
+    linear-gradient(-45deg, transparent 75%, #F3E6D5 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+.dark .bg-checkerboard {
+  background-color: #1A0408;
+  background-image: 
+    linear-gradient(45deg, #2C0911 25%, transparent 25%), 
+    linear-gradient(-45deg, #2C0911 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #2C0911 75%), 
+    linear-gradient(-45deg, transparent 75%, #2C0911 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}

@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ImageUpscaler from './ImageUpscaler';
+import BeforeAfterShowcase from './BeforeAfterShowcase';
+import { LOCALE_LABELS, getLocalizedPath, getTranslation, type Locale } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslation(locale);
+---
+
+<BaseLayout locale={locale} t={t}>
+  <!-- Semantic Breadcrumb Navigation (Matches BreadcrumbList JSON-LD) -->
+  <nav aria-label="Breadcrumb" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3">
+    <ol class="flex items-center gap-1.5 text-[11px] font-semibold text-[#800020]/65 dark:text-[#F3E6D5]/65">
+      <li>
+        <a href="https://upscaleimage.github.io/" class="hover:text-[#D45060] transition-colors">
+          UpscaleImage
+        </a>
+      </li>
+      <li aria-hidden="true" class="text-[#800020]/35 dark:text-[#F3E6D5]/35">/</li>
+      <li aria-current="page" class="text-[#800020] dark:text-[#FFF9F2] font-bold">
+        {locale === 'en' ? 'AI Image Upscaler' : `${LOCALE_LABELS[locale].name} (${locale.toUpperCase()})`}
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative pt-6 pb-8 sm:pt-10 sm:pb-10 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <!-- Subtle radial glow behind hero -->
+    <div
+      class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[680px] h-[340px] rounded-full bg-[#D45060]/12 dark:bg-[#D45060]/15 blur-3xl"
+      aria-hidden="true"
+    ></div>
+
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+      <!-- Top Privacy Badge -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#F3E6D5] dark:bg-[#541523]/80 text-[#800020] dark:text-[#FFF9F2] border border-[#800020]/20 dark:border-[#D45060]/30 mb-5 shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-[#D45060] animate-ping" aria-hidden="true"></span>
+        <span>{t.hero.badge}</span>
+      </div>
+
+      <!-- Main H1 Heading -->
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#800020] dark:text-[#FFF9F2] leading-[1.12] mb-5">
+        {t.hero.titleStart}
+        <span class="bg-gradient-to-r from-[#800020] via-[#D45060] to-[#800020] dark:from-[#D45060] dark:via-[#FAF4EC] dark:to-[#D45060] bg-clip-text text-transparent">
+          {t.hero.titleHighlight}
+        </span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="max-w-2xl mx-auto text-base sm:text-lg text-[#3B1B22]/85 dark:text-[#F3E6D5]/85 leading-relaxed mb-7">
+        {t.hero.subtitle}
+      </p>
+
+      <!-- Trust Pills -->
+      <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 text-xs font-bold text-[#800020] dark:text-[#FFF9F2] mb-4">
+        <div class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#FFFFFF] dark:bg-[#2C0911] border border-[#F3E6D5] dark:border-[#541523] shadow-soft dark:shadow-soft-dark">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#D45060]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          <span>{t.hero.pillPrivacy}</span>
+        </div>
+        <div class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#FFFFFF] dark:bg-[#2C0911] border border-[#F3E6D5] dark:border-[#541523] shadow-soft dark:shadow-soft-dark">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#800020] dark:text-[#D45060]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+          </svg>
+          <span>{t.hero.pillSpeed}</span>
+        </div>
+        <div class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#FFFFFF] dark:bg-[#2C0911] border border-[#F3E6D5] dark:border-[#541523] shadow-soft dark:shadow-soft-dark">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          <span>{t.hero.pillFree}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Primary Interactive React Island: AI Image Upscaler -->
+  <section class="px-4 sm:px-6 lg:px-8 pb-16" aria-label="AI Image Upscaler Tool">
+    <ImageUpscaler client:load t={t.upscaler} />
+  </section>
+
+  <!-- Interactive Visual Showcase: Before & After Real-World Samples -->
+  <section class="px-4 sm:px-6 lg:px-8 pb-20 pt-4" aria-label="AI Upscaling Before and After Showcase">
+    <BeforeAfterShowcase client:visible t={t.showcase} />
+  </section>
+
+  <!-- Architectural Highlights / Features Grid -->
+  <section class="py-16 px-4 sm:px-6 lg:px-8 bg-[#FAF4EC]/80 dark:bg-[#2C0911]/40 border-y border-[#F3E6D5] dark:border-[#541523]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#800020] dark:text-[#FFF9F2] mb-3">
+          {t.features.sectionTitle}
+        </h2>
+        <p class="text-sm sm:text-base text-[#3B1B22]/80 dark:text-[#F3E6D5]/80">
+          {t.features.sectionSubtitle}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {
+          t.features.items.map((item, idx) => (
+            <article class="p-6 rounded-2xl bg-[#FFFFFF] dark:bg-[#2C0911] border border-[#F3E6D5] dark:border-[#541523] shadow-soft dark:shadow-soft-dark flex flex-col gap-3">
+              <div class="w-10 h-10 rounded-xl bg-[#F3E6D5] dark:bg-[#541523] text-[#800020] dark:text-[#FFF9F2] border border-[#800020]/20 dark:border-[#D45060]/30 flex items-center justify-center font-extrabold text-sm">
+                0{idx + 1}
+              </div>
+              <h3 class="text-lg font-bold text-[#800020] dark:text-[#FFF9F2]">
+                {item.title}
+              </h3>
+              <p class="text-sm text-[#3B1B22]/80 dark:text-[#F3E6D5]/80 leading-relaxed">
+                {item.description}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Frequently Asked Questions (Matches FAQPage JSON-LD) -->
+  <section class="py-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-center text-[#800020] dark:text-[#FFF9F2] mb-10">
+        {t.faq.sectionTitle}
+      </h2>
+      <div class="space-y-4">
+        {
+          t.faq.items.map((faqItem) => (
+            <details class="group rounded-2xl bg-[#FFFFFF] dark:bg-[#2C0911] border border-[#F3E6D5] dark:border-[#541523] p-5 shadow-soft dark:shadow-soft-dark">
+              <summary class="flex items-center justify-between cursor-pointer list-none font-bold text-base text-[#800020] dark:text-[#FFF9F2]">
+                <span>{faqItem.q}</span>
+                <span class="ml-4 text-[#D45060] group-open:rotate-180 transition-transform">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </span>
+              </summary>
+              <p class="mt-3 pt-3 border-t border-[#F3E6D5] dark:border-[#541523] text-sm text-[#3B1B22]/80 dark:text-[#F3E6D5]/80 leading-relaxed">
+                {faqItem.a}
+              </p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

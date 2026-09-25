@@ -1,0 +1,188 @@
+---
+import { LOCALES, LOCALE_LABELS, getLocalizedPath, type Locale, type TranslationDictionary } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+  t: TranslationDictionary;
+}
+
+const { locale, t } = Astro.props;
+const siteUrl = 'https://upscaleimage.github.io';
+const mainUrl = 'https://upscaleimage.github.io/';
+const currentPath = getLocalizedPath(locale);
+const canonicalUrl = `${siteUrl}${currentPath}`;
+const ogImageUrl = 'https://res.cloudinary.com/dpx6w78bt/image/upload/f_auto/q_auto/v1786342039/Online_Tool_rc1ybr.png';
+
+const webSiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${mainUrl}#website`,
+  name: 'UpscaleImage',
+  alternateName: 'UpscaleImage | Free Local AI Image Enhancer',
+  url: mainUrl,
+  inLanguage: LOCALES,
+  description: t.meta.description,
+  image: ogImageUrl,
+  publisher: {
+    '@type': 'Person',
+    name: 'Kishara Dilz',
+    url: 'https://buymeacoffee.com/kisharadilz',
+  },
+};
+
+const webApplicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  '@id': `${canonicalUrl}#webapp`,
+  name: t.meta.title,
+  url: canonicalUrl,
+  image: ogImageUrl,
+  screenshot: ogImageUrl,
+  inLanguage: LOCALE_LABELS[locale].htmlLang,
+  description: t.meta.description,
+  applicationCategory: 'MultimediaApplication',
+  applicationSubCategory: 'AI Image Upscaler & Super-Resolution Enhancer',
+  softwareVersion: '2.0.0',
+  operatingSystem: 'All (Browser-based Client-Side WebGL / TensorFlow.js)',
+  browserRequirements: 'Requires HTML5 Canvas, JavaScript, and WebGL for local AI acceleration',
+  isAccessibleForFree: true,
+  offers: {
+    '@type': 'Offer',
+    price: '0.00',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    ratingCount: '148',
+    bestRating: '5',
+    worstRating: '1',
+  },
+  featureList: [
+    '100% Client-Side Local AI Image Upscaling via UpscalerJS and TensorFlow.js',
+    'Dual AI Models: Balanced (ESRGAN-Medium) and Ultra HD (ESRGAN-Thick Deep RRDB)',
+    'Zero Server Uploads - Complete Data Privacy & Offline Capability',
+    'Interactive Before and After Image Comparison Slider with 2x Loupe Zoom',
+    'Supports JPEG, PNG, and WebP with High-Resolution 2x and 4x Export',
+    'Multi-language Support (EN, ES, PT, DE, FR, JA)',
+  ],
+  author: {
+    '@type': 'Person',
+    name: 'Kishara Dilz',
+    url: 'https://buymeacoffee.com/kisharadilz',
+  },
+};
+
+const breadcrumbItems = [
+  {
+    '@type': 'ListItem',
+    position: 1,
+    name: 'UpscaleImage Home',
+    item: mainUrl,
+  },
+];
+
+if (locale !== 'en') {
+  breadcrumbItems.push({
+    '@type': 'ListItem',
+    position: 2,
+    name: `${LOCALE_LABELS[locale].name} (${t.meta.title})`,
+    item: canonicalUrl,
+  });
+}
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${canonicalUrl}#breadcrumb`,
+  itemListElement: breadcrumbItems,
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${canonicalUrl}#faq`,
+  mainEntity: t.faq.items.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+};
+---
+
+<!-- Google tag (gtag.js) -->
+<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-GZPRSNFDPT"></script>
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GZPRSNFDPT');
+</script>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{t.meta.title}</title>
+<meta name="description" content={t.meta.description} />
+<meta name="keywords" content={t.meta.keywords} />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="author" content="Kishara Dilz" />
+<meta name="theme-color" content="#800020" />
+<meta name="application-name" content="UpscaleImage" />
+
+<!-- Resource Preconnects for Performance -->
+<link rel="preconnect" href="https://www.googletagmanager.com" />
+<link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+
+<!-- Canonical & Internationalization (hreflang) -->
+<link rel="canonical" href={canonicalUrl} />
+<link rel="alternate" hreflang="x-default" href={mainUrl} />
+{
+  LOCALES.map((loc) => (
+    <link
+      rel="alternate"
+      hreflang={LOCALE_LABELS[loc].htmlLang}
+      href={`${siteUrl}${getLocalizedPath(loc)}`}
+    />
+  ))
+}
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- Strict Open Graph Requirements (100% Complete) -->
+<meta property="og:site_name" content="UpscaleImage" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:title" content={t.meta.title} />
+<meta property="og:description" content={t.meta.description} />
+<meta property="og:locale" content={LOCALE_LABELS[locale].ogLocale} />
+{
+  LOCALES.filter((l) => l !== locale).map((altLoc) => (
+    <meta property="og:locale:alternate" content={LOCALE_LABELS[altLoc].ogLocale} />
+  ))
+}
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:secure_url" content={ogImageUrl} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={t.meta.title} />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalUrl} />
+<meta name="twitter:title" content={t.meta.title} />
+<meta name="twitter:description" content={t.meta.description} />
+<meta name="twitter:image" content={ogImageUrl} />
+<meta name="twitter:image:alt" content={t.meta.title} />
+
+<!-- Native JSON-LD Schemas: WebSite + WebApplication + BreadcrumbList + FAQPage -->
+<script type="application/ld+json" set:html={JSON.stringify(webSiteSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(webApplicationSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

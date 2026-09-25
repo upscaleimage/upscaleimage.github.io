@@ -1,0 +1,193 @@
+---
+import { LOCALES, LOCALE_LABELS, getLocalizedPath, type Locale, type TranslationDictionary } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+  t: TranslationDictionary;
+}
+
+const { locale, t } = Astro.props;
+const currentLabel = LOCALE_LABELS[locale];
+---
+
+<header class="sticky top-0 z-50 w-full backdrop-blur-md bg-[#FFF9F2]/90 dark:bg-[#2C0911]/90 border-b border-[#F3E6D5] dark:border-[#541523] transition-colors duration-200">
+  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
+    <!-- Brand Logo -->
+    <a
+      href={getLocalizedPath(locale)}
+      class="flex items-center gap-2 sm:gap-2.5 shrink-0 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D45060] rounded-lg"
+      aria-label="UpscaleImage Home"
+    >
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#800020] to-[#D45060] dark:from-[#D45060] dark:to-[#800020] flex items-center justify-center text-[#FFF9F2] shadow-sm group-hover:scale-105 transition-transform shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8" />
+          <path d="M9 19.8V15m0 0H4.2M9 15l-6 6" />
+          <path d="M15 4.2V9m0 0h4.8M15 9l6-6" />
+          <path d="M9 4.2V9m0 0H4.2M9 9 3 3" />
+        </svg>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex items-center gap-1.5">
+          <span class="font-bold text-base sm:text-lg tracking-tight text-[#800020] dark:text-[#FFF9F2] whitespace-nowrap">
+            Upscale<span class="text-[#D45060]">Image</span>
+          </span>
+          <span class="hidden xl:inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-[#F3E6D5]/80 text-[#800020] dark:bg-[#541523]/80 dark:text-[#FFF9F2] border border-[#800020]/20 dark:border-[#D45060]/30">
+            Local AI
+          </span>
+        </div>
+        <span class="hidden xl:block text-[11px] text-[#800020]/70 dark:text-[#F3E6D5]/70 leading-none">
+          {t.nav.brandSubtitle}
+        </span>
+      </div>
+    </a>
+
+    <!-- Right Controls: Language Dropdown, Theme Switcher, Support Developer CTA -->
+    <!-- On mobile and tablet (<lg), these stay simple, elegant icon buttons to prevent wrapping and clutter -->
+    <div class="flex items-center gap-1.5 sm:gap-2 lg:gap-3 shrink-0">
+      <!-- Language Dropdown: compact flag icon button on mobile/tab, flag + code + chevron on desktop -->
+      <div class="relative" id="lang-dropdown-wrapper">
+        <button
+          type="button"
+          id="lang-dropdown-btn"
+          aria-expanded="false"
+          aria-haspopup="true"
+          aria-label={t.nav.languageLabel}
+          title={t.nav.languageLabel}
+          class="h-10 px-2 sm:px-2.5 lg:px-3 rounded-xl inline-flex items-center justify-center gap-1.5 text-xs sm:text-sm font-semibold text-[#800020] dark:text-[#FFF9F2] bg-[#FFFFFF] dark:bg-[#1A0408] hover:bg-[#F3E6D5]/60 dark:hover:bg-[#541523]/60 border border-[#F3E6D5] dark:border-[#541523] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D45060]"
+        >
+          <span class="text-base leading-none" aria-hidden="true">{currentLabel.flag}</span>
+          <span class="hidden lg:inline uppercase font-bold">{locale}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-[#800020]/60 dark:text-[#F3E6D5]/60 hidden lg:inline transition-transform duration-150" id="lang-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </button>
+
+        <div
+          id="lang-dropdown-menu"
+          class="hidden absolute right-0 mt-2 w-48 rounded-2xl bg-[#FFFFFF] dark:bg-[#2C0911] shadow-xl border border-[#F3E6D5] dark:border-[#541523] py-1.5 z-50 overflow-hidden"
+          role="menu"
+        >
+          {
+            LOCALES.map((loc) => {
+              const info = LOCALE_LABELS[loc];
+              const isCurrent = loc === locale;
+              return (
+                <a
+                  href={getLocalizedPath(loc)}
+                  role="menuitem"
+                  class={`flex items-center justify-between px-3.5 py-2.5 text-sm transition-colors ${
+                    isCurrent
+                      ? 'bg-[#F3E6D5]/70 dark:bg-[#541523]/70 text-[#800020] dark:text-[#D45060] font-bold'
+                      : 'text-[#800020] dark:text-[#FFF9F2] hover:bg-[#F3E6D5]/40 dark:hover:bg-[#541523]/50'
+                  }`}
+                >
+                  <span class="flex items-center gap-2.5">
+                    <span class="text-base">{info.flag}</span>
+                    <span>{info.name}</span>
+                  </span>
+                  {isCurrent && (
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#800020] dark:text-[#D45060]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  )}
+                </a>
+              );
+            })
+          }
+        </div>
+      </div>
+
+      <!-- Theme Switcher Button: clean icon button across all screens -->
+      <button
+        type="button"
+        id="theme-toggle-btn"
+        aria-label={t.nav.toggleTheme}
+        title={t.nav.toggleTheme}
+        class="w-10 h-10 rounded-xl inline-flex items-center justify-center text-[#800020] dark:text-[#FFF9F2] bg-[#FFFFFF] dark:bg-[#1A0408] hover:bg-[#F3E6D5]/60 dark:hover:bg-[#541523]/60 border border-[#F3E6D5] dark:border-[#541523] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D45060]"
+      >
+        <!-- Sun Icon (shown in Dark Mode to switch to Light) -->
+        <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" class="hidden w-5 h-5 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2" /><path d="M12 20v2" />
+          <path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" />
+          <path d="M2 12h2" /><path d="M20 12h2" />
+          <path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" />
+        </svg>
+        <!-- Moon Icon (shown in Light Mode to switch to Dark) -->
+        <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#800020]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+        </svg>
+      </button>
+
+      <!-- Prominent 'Support the Developer' CTA: Simple icon button on mobile/tab, full label on desktop -->
+      <a
+        href="https://buymeacoffee.com/kisharadilz"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={t.nav.supportDeveloper}
+        title={t.nav.supportDeveloper}
+        class="h-10 px-2.5 lg:px-4 rounded-xl inline-flex items-center justify-center gap-2 text-xs sm:text-sm font-bold text-[#FFF9F2] bg-[#800020] hover:bg-[#D45060] dark:bg-[#D45060] dark:hover:bg-[#E57381] shadow-sm hover:shadow-glow-coral transition-all duration-150 active:scale-[0.98] shrink-0"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
+          <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
+          <line x1="6" x2="6" y1="2" y2="4" />
+          <line x1="10" x2="10" y1="2" y2="4" />
+          <line x1="14" x2="14" y1="2" y2="4" />
+        </svg>
+        <span class="hidden lg:inline whitespace-nowrap">{t.nav.supportDeveloper}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    const langBtn = document.getElementById('lang-dropdown-btn');
+    const langMenu = document.getElementById('lang-dropdown-menu');
+    const langChevron = document.getElementById('lang-chevron');
+    const langWrapper = document.getElementById('lang-dropdown-wrapper');
+
+    if (langBtn && langMenu) {
+      langBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isHidden = langMenu.classList.contains('hidden');
+        langMenu.classList.toggle('hidden', !isHidden);
+        langBtn.setAttribute('aria-expanded', String(isHidden));
+        if (langChevron) {
+          langChevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (langWrapper && !langWrapper.contains(e.target)) {
+          langMenu.classList.add('hidden');
+          langBtn.setAttribute('aria-expanded', 'false');
+          if (langChevron) langChevron.style.transform = 'rotate(0deg)';
+        }
+      });
+    }
+
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const sunIcon = document.getElementById('theme-icon-sun');
+    const moonIcon = document.getElementById('theme-icon-moon');
+
+    function syncIcons() {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (sunIcon && moonIcon) {
+        sunIcon.classList.toggle('hidden', !isDark);
+        moonIcon.classList.toggle('hidden', isDark);
+      }
+    }
+
+    syncIcons();
+
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('upscaleimage-theme', isDark ? 'dark' : 'light');
+        syncIcons();
+      });
+    }
+  })();
+</script>

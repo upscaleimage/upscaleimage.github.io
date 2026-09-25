@@ -1,0 +1,42 @@
+---
+import SEO from '../components/SEO.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { LOCALE_LABELS, type Locale, type TranslationDictionary } from '../i18n/translations';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  t: TranslationDictionary;
+}
+
+const { locale, t } = Astro.props;
+const htmlLang = LOCALE_LABELS[locale].htmlLang;
+---
+
+<!doctype html>
+<html lang={htmlLang} class="scroll-smooth">
+  <head>
+    <SEO locale={locale} t={t} />
+    <!-- Prevent FOUC: Light Mode is default unless 'dark' was explicitly saved -->
+    <script is:inline>
+      (function () {
+        try {
+          const savedTheme = localStorage.getItem('upscaleimage-theme');
+          if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col bg-[#FFF9F2] dark:bg-[#1A0408] text-[#3B1B22] dark:text-[#FFF9F2] selection:bg-[#D45060]/20 selection:text-[#800020] dark:selection:bg-[#D45060]/30 dark:selection:text-[#D45060]">
+    <Navbar locale={locale} t={t} />
+    <main class="flex-grow">
+      <slot />
+    </main>
+    <Footer locale={locale} t={t} />
+  </body>
+</html>

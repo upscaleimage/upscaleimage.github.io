@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#1A0408"/>
+  <circle cx="600" cy="315" r="380" fill="#800020" fill-opacity="0.25"/>
+  <rect x="90" y="90" width="1020" height="450" rx="32" fill="#2C0911" stroke="#541523" stroke-width="2"/>
+  <rect x="140" y="145" width="260" height="42" rx="21" fill="#541523"/>
+  <text x="270" y="172" fill="#D45060" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" text-anchor="middle">100% LOCAL BROWSER AI</text>
+  <text x="140" y="265" fill="#FFF9F2" font-family="Inter, system-ui, sans-serif" font-size="64" font-weight="800">UpscaleImage</text>
+  <text x="140" y="335" fill="#D45060" font-family="Inter, system-ui, sans-serif" font-size="38" font-weight="700">Free Local AI Image Enhancer</text>
+  <text x="140" y="405" fill="#F3E6D5" font-family="Inter, system-ui, sans-serif" font-size="24">UpscalerJS • TensorFlow.js • WebGL GPU • Zero Server Uploads</text>
+  <text x="140" y="475" fill="#D45060" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="600">https://upscaleimage.github.io</text>
+</svg>
