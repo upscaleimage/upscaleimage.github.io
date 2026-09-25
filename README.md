@@ -65,7 +65,7 @@ Engineered from the ground up for maximum search visibility and Core Web Vitals 
 
 1. **Quadruple JSON-LD Structured Data Graphs** (`src/components/SEO.astro`):
    * `WebSite` Schema (Publisher, Language Matrix, Canonical Identity)
-   * `WebApplication` Schema (`MultimediaApplication`, Free Offer `$0.00 USD`, Feature List, `AggregateRating`)
+   * `WebApplication` Schema (`MultimediaApplication`, Free Offer `$0.00 USD`, Feature List, Operating System)
    * `BreadcrumbList` Schema (Hierarchical position mapping for root and localized routes)
    * `FAQPage` Schema (Synchronized with visible semantic `<details>` / `<summary>` accordions)
 2. **International SEO & Image Sitemap** (`src/pages/sitemap.xml.ts`):
